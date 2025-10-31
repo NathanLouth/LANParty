@@ -249,7 +249,7 @@ Reboot your server. You should now be able to access the internet from a device 
 
 Download the file `lanparty` from this repository and put it in your `$PATH`, like:
 
-    curl https://raw.githubusercontent.com/kentonv/lanparty/master/lanparty > /usr/local/bin/lanparty
+    curl https://raw.githubusercontent.com/NathanLouth/LANParty/master/lanparty > /usr/local/bin/lanparty
     chmod +x /usr/local/bin/lanparty
 
 We will use this script to assist in later setup, and then to operate the machines during parties.
