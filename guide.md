@@ -82,7 +82,7 @@ In our case, we will *only* modify the snapshots, leaving the original volume un
 
 * **Network boot from iSCSI:** Most network adapter firmwares support "PXE boot" to boot over the network. However, standard PXE firmwares do not typically support iSCSI boot -- that's usually reserved for absurdly expensive "enterprise" NICs. Fortunately, there exists an open source firmware called [iPXE](https://ipxe.org/) that does, in fact, support iSCSI boot. In theory, if you are very brave, you could flash iPXE directly onto your network adapter's firmware ROM. I am not that brave. Instead, what we can do is chain-load. First, the machines will do regular PXE boot, and the server will respond by serving them a copy of iPXE. The machines will then run that, leading to a second PXE boot pass, but this time the server can tell them to boot from the iSCSI volume. Hooray!
 
-* **Windows 11:** Since the original use case was for LAN parties, the client machines run Windows. I did actually try running Linux and WINE for a few months in mid-2011, and it worked better than you'd think, but not well enough. Fortunately, Windows 11 supports installing directly to, and booting directly from, an iSCSI volume -- yes, even Windows 11 Home. However, there are some bugs you'll need to work around, covered later in this guide.
+* Windows 11 supports installing directly to, and booting directly from, an iSCSI volume -- yes, even Windows 11 Home. However, there are some bugs you'll need to work around, covered later in this guide.
 
 ## Prerequisites
 
@@ -432,8 +432,6 @@ We are going to want to transfer the disk image later, so it helps to use a smal
 I won't cover the details of installing Windows in this guide, since it's common knowledge.
 
 ### Avoiding Microsoft Sign-in
-
-*Note: This section is about Windows 11 specifically. I've heard mixed reports on whether this is still possible in Windows 11. I have not tried Windows 11 yet.*
 
 When Windows 11 boots for the first time, it'll try to force you to sign in with a Microsoft account. This is NOT what you want. Your machines are intended for use by guests, and you probably don't want to force your guests to log into their own Microsoft account. You could set up Windows using an online account and then create a local account later, but it's much cleaner to avoid signing into an online account at all.
 
