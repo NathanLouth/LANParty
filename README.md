@@ -1,4 +1,4 @@
-# Kenton's LAN Party House Management Script
+# LAN Party House Management Script
 
 <!-- TOC -->
 
@@ -10,7 +10,7 @@
 
 ## Introduction
 
-[My house](https://lanparty.house) features 22 identical machines used for LAN parties. This repository contains the script I use to manage them, and a guide to creating a similar setup. I use this for gaming, but the setup could be just as useful for office machines, internet cafes, school computer labs, and the like.
+This repository contains the script to manage them, and a guide to creating a similar setup. This setup could be useful for LAN Parties, office machines, internet cafes, school computer labs, and the like.
 
 ## The Magic Sauce
 
@@ -19,16 +19,16 @@ Normally, maintaining twelve machines used by random guests would have two huge 
 * Every machine would need to be updated before each party. With games regularly pushing multi-GB updates these days, this would take forever.
 * Guests could easily mess up a machine at a party, requiring me to wipe it and start over, taking even more time.
 
-But, I have solved these problems!
+But, these problems are now solved!
 
-* I only install updates once, and they become immediately available to all machines -- no need even to "clone" the disk image.
+* You only need to install updates once, and they become immediately available to all machines -- no need even to "clone" the disk image.
 * Any changes made by guests at a party are trivially wiped at the end of the party.
 
 How?
 
 * All game machines netboot over iSCSI, from a single server that manages all storage. The game machines don't even use their own disks at all.
 * The server maintains a single master image, along with a copy-on-write overlay for each game machine. Any writes originating from one machine are written only to its private overlay. Any reads check the overlay first, and if the data hasn't been modified, read directly from the master image.
-* When installing updates, I still use an overlay, but I then merge the overlay back into the master image once updates are complete.
+* When installing updates, overlays are still used, but then merge the overlay back into the master image once updates are complete.
 
 Results:
 
@@ -38,12 +38,12 @@ Results:
 
 ## How to do it yourself
 
-This repository contains the script I use to manage the computers, as well as a guide to help you replicate my setup. This repo will help you:
+This repository contains a script to manage the computers, as well as a guide to help you replicate my setup. This repo will help you:
 
 * Create a master volume and space for overlays using LVM.
 * Configure DHCP, tftp, iPXE, and iSCSI for netboot.
 * Configure a private DNS server so your machines can name each other (optional).
 * Set up and tear down overlays for parties, as well as arrange to install updates, using a convenient script.
-* Install Windows 10 directly to an iSCSI device.
+* Install Windows 11 directly to an iSCSI device.
 
 [To get started, see the guide »](guide.md)
