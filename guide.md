@@ -370,13 +370,13 @@ Now edit the file to contain something like:
 
 Test your configuration by pinging one of your machine names:
 
-    $ ping cutman
-    PING cutman.example.com (10.0.0.3) 56(84) bytes of data.
+    $ ping COMPUTERNAME
+    PING COMPUTERNAME.example.com (10.0.0.3) 56(84) bytes of data.
 
 You can also test reverse lookup with `dig` (may require installing `dnsutils` package):
 
     $ dig -x 10.0.0.3 +short
-    cutman.example.com.
+    COMPUTERNAME.example.com.
 
 ### Samba (optional)
 
@@ -439,15 +439,15 @@ Unfortunately, a recent update makes it so that the Windows 11 setup process won
 
 Of course, your machine needs continuous access to the LAN, since it's booting over iSCSI. So, you can't unplug just the one machine. Instead, you could unplug your internet modem temporarily. Or, if you set up your server as a router, you can temporarily block internet access for the one specific machine like so:
 
-    iptables -A FORWARD -s cutman -j DROP
+    iptables -A FORWARD -s COMPUTERNAME -j DROP
 
-Replace `cutman` with the particular machine's name. Voilà, no more internet! If you're already at the sign-in prompt in Windows 11 setup, click the back-arrow button in the upper-left. The account creation prompt will come up again, but this time won't prompt you to sign into a Microsoft account. It simply says "Who's going to use this PC?" and lets you set a username.
+Replace `COMPUTERNAME` with the particular machine's name. Voilà, no more internet! If you're already at the sign-in prompt in Windows 11 setup, click the back-arrow button in the upper-left. The account creation prompt will come up again, but this time won't prompt you to sign into a Microsoft account. It simply says "Who's going to use this PC?" and lets you set a username.
 
 For what it's worth, I like to use "LAN Party Guest" as the username. I set no password for this account and enable auto-login.
 
 Once you've gotten past account creation, you can unblock the machine like so:
 
-    iptables -D FORWARD -s cutman -j DROP
+    iptables -D FORWARD -s COMPUTERNAME -j DROP
 
 ### Preparing for iSCSI
 
