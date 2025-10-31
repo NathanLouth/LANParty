@@ -1,4 +1,4 @@
-# Kenton's LAN Party Setup Guide
+# LAN Party Setup Guide
 
 <!-- TOC -->
 
