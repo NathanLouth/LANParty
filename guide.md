@@ -82,7 +82,7 @@ In our case, we will *only* modify the snapshots, leaving the original volume un
 
 * **Network boot from iSCSI:** Most network adapter firmwares support "PXE boot" to boot over the network. However, standard PXE firmwares do not typically support iSCSI boot -- that's usually reserved for absurdly expensive "enterprise" NICs. Fortunately, there exists an open source firmware called [iPXE](https://ipxe.org/) that does, in fact, support iSCSI boot. In theory, if you are very brave, you could flash iPXE directly onto your network adapter's firmware ROM. I am not that brave. Instead, what we can do is chain-load. First, the machines will do regular PXE boot, and the server will respond by serving them a copy of iPXE. The machines will then run that, leading to a second PXE boot pass, but this time the server can tell them to boot from the iSCSI volume. Hooray!
 
-* **Windows 10:** Since the original use case was for LAN parties, the client machines run Windows. I did actually try running Linux and WINE for a few months in mid-2011, and it worked better than you'd think, but not well enough. Fortunately, Windows 10 supports installing directly to, and booting directly from, an iSCSI volume -- yes, even Windows 10 Home. However, there are some bugs you'll need to work around, covered later in this guide.
+* **Windows 11:** Since the original use case was for LAN parties, the client machines run Windows. I did actually try running Linux and WINE for a few months in mid-2011, and it worked better than you'd think, but not well enough. Fortunately, Windows 11 supports installing directly to, and booting directly from, an iSCSI volume -- yes, even Windows 11 Home. However, there are some bugs you'll need to work around, covered later in this guide.
 
 ## Prerequisites
 
@@ -98,7 +98,7 @@ You will need:
     * A lot of RAM. RAM will be used for a shared disk cache. My server has 20GB but I'd probably go with 64GB in a new setup.
 * A fleet of client machines, preferably with identical hardware, optimized for whatever workload you're expecting. These machines shouldn't need disks, although I've heard rumors that the Windows installer might spuriously fail if there is no local disk. My machines have small (64GB) local SSDs.
 * A network switch with at least one 10 gigabit port (for the server) and enough 1 gigabit ports for the clients.
-* Windows 10 licenses for each client machine. Even though you only install Windows 10 once, it will recognize when it's booting on different hardware and will phone home looking for a matching license.
+* Windows 11 licenses for each client machine. Even though you only install Windows 11 once, it will recognize when it's booting on different hardware and will phone home looking for a matching license.
 
 ## Setting up the server
 
@@ -433,17 +433,17 @@ I won't cover the details of installing Windows in this guide, since it's common
 
 ### Avoiding Microsoft Sign-in
 
-*Note: This section is about Windows 10 specifically. I've heard mixed reports on whether this is still possible in Windows 11. I have not tried Windows 11 yet.*
+*Note: This section is about Windows 11 specifically. I've heard mixed reports on whether this is still possible in Windows 11. I have not tried Windows 11 yet.*
 
-When Windows 10 boots for the first time, it'll try to force you to sign in with a Microsoft account. This is NOT what you want. Your machines are intended for use by guests, and you probably don't want to force your guests to log into their own Microsoft account. You could set up Windows using an online account and then create a local account later, but it's much cleaner to avoid signing into an online account at all.
+When Windows 11 boots for the first time, it'll try to force you to sign in with a Microsoft account. This is NOT what you want. Your machines are intended for use by guests, and you probably don't want to force your guests to log into their own Microsoft account. You could set up Windows using an online account and then create a local account later, but it's much cleaner to avoid signing into an online account at all.
 
-Unfortunately, a recent update makes it so that the Windows 10 setup process won't give you the option to create a local account. However, there's a trick: If the machine cannot reach the internet, then a local account will be allowed.
+Unfortunately, a recent update makes it so that the Windows 11 setup process won't give you the option to create a local account. However, there's a trick: If the machine cannot reach the internet, then a local account will be allowed.
 
 Of course, your machine needs continuous access to the LAN, since it's booting over iSCSI. So, you can't unplug just the one machine. Instead, you could unplug your internet modem temporarily. Or, if you set up your server as a router, you can temporarily block internet access for the one specific machine like so:
 
     iptables -A FORWARD -s cutman -j DROP
 
-Replace `cutman` with the particular machine's name. Voilà, no more internet! If you're already at the sign-in prompt in Windows 10 setup, click the back-arrow button in the upper-left. The account creation prompt will come up again, but this time won't prompt you to sign into a Microsoft account. It simply says "Who's going to use this PC?" and lets you set a username.
+Replace `cutman` with the particular machine's name. Voilà, no more internet! If you're already at the sign-in prompt in Windows 11 setup, click the back-arrow button in the upper-left. The account creation prompt will come up again, but this time won't prompt you to sign into a Microsoft account. It simply says "Who's going to use this PC?" and lets you set a username.
 
 For what it's worth, I like to use "LAN Party Guest" as the username. I set no password for this account and enable auto-login.
 
@@ -540,7 +540,7 @@ Whatever you want to install, go ahead and install it. (You can also do this lat
 
 ### Set up SSH
 
-In order to use the `lanparty` script to shut down your machines (really convenient at the end of a party!), you will need to enable SSH access. Believe it or not, Windows 10 now has built-in support for being an SSH server! Even Windows 10 Home edition!
+In order to use the `lanparty` script to shut down your machines (really convenient at the end of a party!), you will need to enable SSH access. Believe it or not, Windows 11 now has built-in support for being an SSH server! Even Windows 11 Home edition!
 
 To install the SSH server:
 
@@ -603,7 +603,7 @@ If they're already configured for netboot and ethernet wakeup in the BIOS settin
 
 Alternatively, you can go around pressing the power buttons to boot machines individually, configuring each BIOS as you go.
 
-The first time you boot each machine into Windows 10 (e.g. following the instructions in the next section), it will recognize that the machine is not licensed and complain. Go through the normal process to acquire a Windows 10 license for that machine. Once licensed, the machine is registered in Microsoft's database, so it will never ask you again. Yes, this seems to imply that the machines will phone home to Microsoft for a license check every time you re-initialize their images from the master image, which is sort of disturbing... but it's a whole lot more convenient than what was needed with previous versions!
+The first time you boot each machine into Windows 11 (e.g. following the instructions in the next section), it will recognize that the machine is not licensed and complain. Go through the normal process to acquire a Windows 11 license for that machine. Once licensed, the machine is registered in Microsoft's database, so it will never ask you again. Yes, this seems to imply that the machines will phone home to Microsoft for a license check every time you re-initialize their images from the master image, which is sort of disturbing... but it's a whole lot more convenient than what was needed with previous versions!
 
 With all licenses obtained, you can shut down all the machines at once:
 
